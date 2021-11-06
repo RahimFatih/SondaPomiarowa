@@ -1,0 +1,11 @@
+
+test,czujnikTemperatury,czujnikTemperatury,1
+test1,czujnikTemperatury,czujnikTemperatury,2
+test,czujnikTemperatury,czujnikTemperatury,1
+test,czujnikTemperatury,czujnikTemperatury,2
+t,czujnikTemperatury,czujnikTemperatury,1
+test,czujnikTemperatury,czujnikTemperatury,1
+test,czujnikTemperatury,czujnikTemperatury,2
+test,czujnikTemperatury,czujnikTemperatury,2
+test,czujnikTemperatury,czujnikTemperatury,2
+test,czujnikTemperatury,czujnikTemperatury,2

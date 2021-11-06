@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataroot xmlns:od="urn:schemas-microsoft-com:officedata" generated="2021-10-27T18:03:20">
+<Tabela1>
+<Czujnik>test</Czujnik>
+<Adres>tes3</Adres>
+</Tabela1>
+<Tabela1>
+<Czujnik>Test1</Czujnik>
+<Adres>res4</Adres>
+</Tabela1>
+</dataroot>

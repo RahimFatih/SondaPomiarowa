@@ -1,0 +1,139 @@
+<html>
+
+<head>
+    <title>Sonda</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="./css/myMain.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
+
+</head>
+
+<body onload='readDevices("./devices.txt");'>
+    <button class="buttonColorMode" onclick="darkMode()">Darkmode</button>
+    <button class="buttonColorMode" onclick="lightMode()">LightMode</button>
+    <header>
+        <h1>Sonda pomiarowa</h1>
+    </header>
+
+
+    <div class="row">
+        <div class="column">
+
+            <table id="myTable">
+
+            </table>
+        </div>
+        <div class="column">
+            <form action="./cgi-bin/handleForm.py" method="get" id="sensorForm">
+
+                <caption style="text-align:left">
+                    <p>Dodaj czujnik</p>
+                </caption>
+                <label for="sname">Nazwa czujnika:</label>
+                <input type="text" id="sname" name="sname"><br>                
+                <label for="cars">Typ czujnika:</label>
+                <select name="sType" id="sType" form="sensorForm"><br>
+                    <option value="czujnikTemperatury">DS18B20</option>
+                </select><br>
+                
+                <label for="serialNo">Nr Seryjny:</label>
+                <input type="text" id="serialNo" name="serialNo"><br>
+                <label for="pin_number">Pin czujnika:</label>
+                <input type="number " id="pin_number" name="pin_number"><br>
+                <input type="submit" value="Dodaj">
+
+            </form>
+        </div>
+    </div>
+    <button class="buttonColorMode" onclick="readDevices('./devices.txt')">test</button>
+
+    <script>
+        function darkMode() {
+            var element = document.body;
+            var content = document.getElementById("DarkModetext");
+            element.className = "dark-mode";
+            content.innerText = "Dark Mode is ON";
+        };
+        function lightMode() {
+            var element = document.body;
+            var content = document.getElementById("DarkModetext");
+            element.className = "light-mode";
+            content.innerText = "Dark Mode is OFF";
+        };
+        function readDevices(file) {
+            var rawFile = new XMLHttpRequest();
+            rawFile.open("GET", file, false);
+            rawFile.onreadystatechange = function () {
+                if (rawFile.readyState === 4) {
+                    if (rawFile.status === 200 || rawFile.status == 0) {
+                        var allText = rawFile.responseText;
+                        document.getElementById("myTable").innerHTML = rawFile.responseText;
+                        array2d = stringTo2dArray(allText, "\n", ",");
+                        createTable(array2d, "myTable");
+
+
+                    };
+                };
+            };
+
+            rawFile.send(null);
+        };
+        function stringTo2dArray(string, d1, d2) {
+            return string.split(d1).map(function (x) { return x.split(d2) });
+        };
+        function createTable(tableData, tableID) {
+            var table = document.createElement('table');
+            var tableBody = document.createElement('tbody');
+            var tableCaption = document.createElement('caption');
+            var para = document.createElement("p");
+            para.appendChild(document.createTextNode("Lista czujników:"));
+            tableCaption.appendChild(para);
+            tableCaption.style.textAlign = "left";
+
+            var tableHead = document.createElement('thead');
+            var row = document.createElement('tr');
+            var theadData = ["Nazwa", "Typ", "Nr. Seryjny", "Pin"];
+            theadData.forEach(function (cellData) {
+                var cell = document.createElement('td');
+                cell.appendChild(document.createTextNode(cellData));
+                cell.style.fontWeight = 'bold';
+                cell.style.paddingLeft = "5px";
+
+                row.appendChild(cell);
+            });
+            tableHead.appendChild(row);
+            tableData.forEach(function (rowData) {
+                var row = document.createElement('tr');
+
+                rowData.forEach(function (cellData) {
+                    var cell = document.createElement('td');
+                    cell.style.paddingLeft = "5px";
+                    cell.appendChild(document.createTextNode(cellData));
+                    row.appendChild(cell);
+                });
+
+                tableBody.appendChild(row);
+            });
+            table.appendChild(tableCaption);
+            table.appendChild(tableHead);
+            table.appendChild(tableBody);
+            document.getElementById(tableID).innerHTML = table.outerHTML;
+            document.getElementById(tableID).className = "styled-table"
+
+            document.getElementById(tableID).style.borderRadius = "5px"
+
+        };
+        function refreshData() {
+            var t = setInterval(readDevices("./devices.txt"), 1000);
+
+        };
+    </script>
+
+
+
+
+</body>
+
+</html>
